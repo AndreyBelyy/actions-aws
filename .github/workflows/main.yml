@@ -12,7 +12,7 @@ env:
   EB_APPLICATION_NAME       : "MyFlask"
   EB_ENVIRONMENT_NAME       : "MyFlask-env"
   DEPLOY_PACKAGE_NAME       : "flask_app_${{ github.sha }}.zip"
-  AWS_REGION_NAME           : "us-west-2"
+  AWS_REGION_NAME           : "us-west-1"
   
 on: 
   push:
@@ -30,5 +30,17 @@ jobs:
     - name: Create ZIP deployment package
       run : zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./ -x *.git*
       
-    
-    
+    - name: Configure AWS creds
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+         aws-acсess-key-id.   : ${{ secrets.MY_AWS_ACCESS_KEY }}
+         aws-secret-access-key: ${{ secret.MY_AWS_SECRET_KEY }}
+         aws-region           : ${{ env.AWS_REGION_NAME }}
+         
+         
+    - name: Copy Deployment pckg to S3 bucket
+      run : aws s3 cp ${{ env.DEPLOY_PACKAGE_NAME }} s3://${{ env.EB_PACKAGE_S3_BUCKET_NAME }}/
+      
+    - name: Print Happy message for CI finish
+      run : echo "CI part finished successfully!"
+         
