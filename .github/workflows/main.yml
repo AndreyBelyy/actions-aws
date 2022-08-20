@@ -34,7 +34,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v1
       with:
          aws-acсess-key-id.   : ${{ secrets.MY_AWS_ACCESS_KEY }}
-         aws-secret-access-key: ${{ secret.MY_AWS_SECRET_KEY }}
+         aws-secret-access-key: ${{ secrets.MY_AWS_SECRET_KEY }}
          aws-region           : ${{ env.AWS_REGION_NAME }}
          
          
